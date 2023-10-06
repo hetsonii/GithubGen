@@ -123,8 +123,6 @@ select[name="theme"] {
   background-repeat: no-repeat;
 }
 
-
-
 select[name="theme"] option {
   background-color: #fff;
   color: #333;
@@ -173,3 +171,46 @@ select[name="theme"] option:hover {
       transform: scale(0.8);
   }
 }
+
+  .skeleton-loader-container {
+    position: relative;
+    width: 7em;
+    height: 7em;
+    background-color: #1a1a1a;
+    overflow: hidden; 
+    border-radius: 5px;
+    margin-top: 10px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 3s linear infinite; /* Continuous rotation */
+  }
+  
+  .skeleton-loader {
+    width: 50px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 50%; 
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1.2); /* Scale up */
+    }
+    100% {
+      transform: scale(0.8); /* Back to initial scale */
+    }
+  }
+  
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg); /* Rotate a full circle */
+    }
+  }
