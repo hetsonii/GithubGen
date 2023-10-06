@@ -211,6 +211,34 @@ select[name="theme"] option:hover {
       transform: rotate(0deg);
     }
     100% {
-      transform: rotate(360deg); /* Rotate a full circle */
+      transform: rotate(360deg); 
     }
   }
+
+  .suggestions {
+    list-style: none;
+    padding: 0;
+    position: absolute;
+    background-color: rgb(59, 55, 55);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    width: 80%; 
+    max-width: 200px; 
+    border: 1px solid #ccc;
+    top: calc(47% + 3px);
+    left: 52%;
+    transform: translateX(-50%);
+  }
+  
+
+.suggestions-item {
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.suggestions-item:hover {
+  background-color: #aba3a3;
+}
+
+  
