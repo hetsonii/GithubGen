@@ -3,7 +3,7 @@
 body {
     display: grid;
     place-items: center;
-    background-color: #1a1a1a; /* Dark blue background color */
+    background-color: #181726; /* Dark blue background color */
     min-height: 100vh; /* Added minimum height for better centering */
     font-weight: bold; /* Make fonts bolder */
     color: #fff; /* White font color */
@@ -11,8 +11,8 @@ body {
   
   .container {
     min-width: 800px;
-    background-color: #333; /* Darker gray background color */
-    padding: 30px; /* Increased padding for better spacing */
+    background-color: #2b273f;
+    padding: 30px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -66,12 +66,12 @@ body {
   }
   
   input[type="checkbox"]:checked {
-    background-color: #007bff;
-    border: 1px solid #007bff;
+    background-color: #6e6bfa;
+    border: 1px solid #6e6bfa;
   }
   
   button {
-    background-color: #007bff;
+    background-color: #6e6bfa;
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -83,7 +83,7 @@ body {
   }
   
   button:hover {
-    background-color: #0056b3;
+    background-color: #6d6bfa8c;
     transform: scale(1.05); /* Scale up the button on hover */
   }
   
@@ -157,8 +157,8 @@ body {
   .skeleton-loader {
     width: 50px;
     height: 50px;
-    background-color: #e0e0e0; /* Color of the circle */
-    border-radius: 50%; /* Makes it a circle */
+    background-color: #e0e0e0;
+    border-radius: 50%; 
     animation: pulse 1.5s infinite;
   }
   
