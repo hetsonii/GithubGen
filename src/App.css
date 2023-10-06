@@ -3,13 +3,15 @@
 body {
     display: grid;
     place-items: center;
-    background-color: rgb(228, 228, 228);
+    background-color: #1a1a1a; /* Dark blue background color */
     min-height: 100vh; /* Added minimum height for better centering */
+    font-weight: bold; /* Make fonts bolder */
+    color: #fff; /* White font color */
   }
   
   .container {
     min-width: 800px;
-    background-color: white;
+    background-color: #333; /* Darker gray background color */
     padding: 30px; /* Increased padding for better spacing */
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -22,6 +24,7 @@ body {
     font-weight: bold;
     display: block;
     margin-bottom: 15px; /* Increased margin for better separation */
+    color: #fff; /* White font color */
   }
   
   input[type="text"],
@@ -32,6 +35,9 @@ body {
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 16px;
+    font-weight: bold; /* Make fonts bolder */
+    background-color: #444; /* Darker gray background color for inputs */
+    color: #fff; /* White font color for inputs */
   }
   
   .checkbox-container {
@@ -44,7 +50,7 @@ body {
     display: flex;
     align-items: center;
     margin-right: 20px; /* Add some space between checkbox items */
-    color: #555;
+    color: #fff; /* White font color */
     font-size: 16px;
   }
   
@@ -72,6 +78,7 @@ body {
     padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold; /* Make fonts bolder */
     transition: background-color 0.2s, transform 0.2s; /* Added transitions */
   }
   
@@ -101,10 +108,11 @@ body {
   select[name="theme"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 20px; /* Increased margin for better separation */
+    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 16px;
+    font-weight: bold; /* Make fonts bolder */
     appearance: none;
     background-image: linear-gradient(45deg, transparent 50%, #007bff 50%),
       linear-gradient(135deg, #007bff 50%, transparent 50%);
@@ -131,5 +139,38 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  
+  .skeleton-loader-container {
+    position: relative;
+    width: 10em;
+    height: 10em;
+    background-color: #1a1a1a;
+    overflow: hidden; 
+    border-radius: 5px; 
+    margin-top: 10px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .skeleton-loader {
+    width: 50px;
+    height: 50px;
+    background-color: #e0e0e0; /* Color of the circle */
+    border-radius: 50%; /* Makes it a circle */
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(0.8); /* Initial scale */
+    }
+    50% {
+      transform: scale(1.2); /* Scale up */
+    }
+    100% {
+      transform: scale(0.8); /* Back to initial scale */
+    }
   }
   

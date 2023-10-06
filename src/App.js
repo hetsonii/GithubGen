@@ -1,3 +1,4 @@
+// App.js
 import React, { useState } from 'react';
 import './App.css';
 
@@ -9,6 +10,7 @@ function App() {
   const [countPrivate, setCountPrivate] = useState(false);
   const [stats, setStats] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Added loading state
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -41,8 +43,17 @@ function App() {
       return;
     }
 
+    setIsLoading(true); // Set loading state to true
+
     const link = `https://github-readme-stats.vercel.app/api?username=${username}&theme=${theme}&show_icons=${showIcons}&hide_border=${hideBorder}&count_private=${countPrivate}`;
-    setStats(link.toLowerCase().replace(/\s+/g, ''));
+    
+    const img = new Image();
+    img.onload = () => {
+      setStats(link.toLowerCase().replace(/\s+/g, ''));
+      setIsLoading(false); // Set loading state to false when the image is loaded
+    };
+    img.src = link;
+    
     setError('');
   };
 
@@ -107,11 +118,17 @@ function App() {
       <button onClick={generateStats}>Generate Link</button>
       <br />
       <div>
-        {stats && (
-          <>
-            <p>Generated Link:</p>
-            <img src={stats} alt="Generated Link" />
-          </>
+        {isLoading ? (
+          <div className="skeleton-loader-container">
+            <div className="skeleton-loader"></div>
+          </div>
+        ) : (
+          stats && (
+            <>
+              <p>Generated Link:</p>
+              <img src={stats} alt="Generated Link" />
+            </>
+          )
         )}
       </div>
 
