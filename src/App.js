@@ -3,21 +3,22 @@ import './App.css';
 
 function App() {
   const [username, setUsername] = useState('');
-  const [theme, setTheme] = useState('');
+  const [theme, setTheme] = useState('default');
   const [showIcons, setShowIcons] = useState(false);
   const [hideBorder, setHideBorder] = useState(false);
   const [countPrivate, setCountPrivate] = useState(false);
   const [stats, setStats] = useState('');
+  const [error, setError] = useState('');
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
 
     switch (name) {
       case 'username':
-        setUsername(value.toLowerCase().replace(/\s+/g, '')); // Convert to lowercase and remove spaces
+        setUsername(value.toLowerCase().replace(/\s+/g, ''));
         break;
       case 'theme':
-        setTheme(value.toLowerCase().replace(/\s+/g, '')); // Convert to lowercase and remove spaces
+        setTheme(value);
         break;
       case 'show_icons':
         setShowIcons(checked);
@@ -34,41 +35,64 @@ function App() {
   };
 
   const generateStats = () => {
+    if (!username) {
+      setError('Please enter a username.');
+      setStats(''); // Clear the stats if there's an error
+      return;
+    }
+
     const link = `https://github-readme-stats.vercel.app/api?username=${username}&theme=${theme}&show_icons=${showIcons}&hide_border=${hideBorder}&count_private=${countPrivate}`;
-    setStats(link.toLowerCase().replace(/\s+/g, '')); // Convert generated link to lowercase and remove spaces
+    setStats(link.toLowerCase().replace(/\s+/g, ''));
+    setError('');
   };
 
   return (
-    <div>
-      <label>
-        Username:
-      </label>
-      <input type="text" name="username" value={username} onChange={handleInputChange} />
+    <div className='container'>
+      <div className="flex">
+        <label>
+          Username:
+        </label>
+        <input type="text" name="username" value={username} onChange={handleInputChange} />
+      </div>
       <br />
 
-      <label>
-        Theme:
-      </label>
-      <input type="text" name="theme" value={theme} onChange={handleInputChange} />
+      <div className="flex">
+        <label>
+          Theme:
+        </label>
+        <select name="theme" value={theme} onChange={handleInputChange}>
+          <option value="default">Default</option>
+          <option value="dark">Dark</option>
+          <option value="radical">Radical</option>
+          <option value="murko">Murko</option>
+          <option value="gruvbox">Gruvbox</option>
+        </select>
+      </div>
       <br />
 
-      <label>
-        Show Icons:
-      </label>
-      <input type="checkbox" name="show_icons" checked={showIcons} onChange={handleInputChange} />
-      <br />
+      <div className="checkbox-container">
+        <div className="checkbox-label">
+          <label>
+            Show Icons:
+          </label>
+          <input type="checkbox" name="show_icons" checked={showIcons} onChange={handleInputChange} />
+        </div>
 
-      <label>
-        Hide Border:
-      </label>
-      <input type="checkbox" name="hide_border" checked={hideBorder} onChange={handleInputChange} />
-      <br />
+        <div className="checkbox-label">
+          <label>
+            Hide Border:
+          </label>
+          <input type="checkbox" name="hide_border" checked={hideBorder} onChange={handleInputChange} />
+        </div>
 
-      <label>
-        Count Private:
-      </label>
-      <input type="checkbox" name="count_private" checked={countPrivate} onChange={handleInputChange} />
-      <br />
+        <div className="checkbox-label">
+          <label>
+            Count Private:
+          </label>
+          <input type="checkbox" name="count_private" checked={countPrivate} onChange={handleInputChange} />
+        </div>
+      </div>
+
       <br />
 
       <div>
@@ -83,9 +107,15 @@ function App() {
       <button onClick={generateStats}>Generate Link</button>
       <br />
       <div>
-        <p>Generated Link:</p>
-        <img src={stats} alt="Generated Link" />
+        {stats && (
+          <>
+            <p>Generated Link:</p>
+            <img src={stats} alt="Generated Link" />
+          </>
+        )}
       </div>
+
+      {error && <p className="error">{error}</p>}
     </div>
   );
 }
