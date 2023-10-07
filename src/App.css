@@ -225,7 +225,7 @@ select[name="theme"] option:hover {
     width: 80%; 
     max-width: 200px; 
     border: 1px solid #ccc;
-    top: calc(47% + 3px);
+    top: calc(55% + 3px);
     left: 52%;
     transform: translateX(-50%);
   }

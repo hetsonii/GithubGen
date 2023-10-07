@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import GitHubDependencyAnalyzer from './GitHubDependencyAnalyzer';
+import data from './data.json'
 
 const App = () => {
   const [username, setUsername] = useState('');
@@ -16,41 +18,31 @@ const App = () => {
   const [langCard, setLangCard] = useState('');
   const [wakaTimeCard, setWakaTimeCard] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [badge, setBadge] = useState('');
   const [themes, setThemes] = useState([]);
   const [iconTitles, setIconTitles] = useState([]);
   const [badgeData, setBadgeData] = useState('');
   const [searchText, setSearchText] = useState('');
   const [filteredIconTitles, setFilteredIconTitles] = useState([]);
-
-  function fetchAndMapData() {
-    const url =
-      'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/_data/simple-icons.json';
-
-    return fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const iconTitlesData = data.icons.map((icon) => icon.title);
-        setIconTitles(iconTitlesData);
-      });
-  }
+  const [selectedTitles, setSelectedTitles] = useState([]);
+  const [badgeUrls, setBadgeUrls] = useState([]);
+  const [generatedBadgeUrls, setGeneratedBadgeUrls] = useState([]);
 
   useEffect(() => {
-    fetchAndMapData().catch((error) => {
-      console.error('Error fetching and mapping data:', error);
-    });
+    const iconTitlesData = data.icons.map(icon => icon.title);
+    console.log('Fetched icon titles:', iconTitlesData);
+    setIconTitles(iconTitlesData);
   }, []);
 
+
   const filterSuggestions = (searchText) => {
-    return iconTitles.filter((title) =>
-      title.toLowerCase().includes(searchText.toLowerCase())
+    return iconTitles.filter(
+      (item) =>
+        (item.title && item.title.toLowerCase().includes(searchText.toLowerCase())) ||
+        (item.slug && item.slug.toLowerCase().includes(searchText.toLowerCase())) 
     );
   };
+
+
 
   const handleSearchInputChange = (event) => {
     const searchText = event.target.value;
@@ -67,24 +59,47 @@ const App = () => {
   const handleSuggestionClick = (selectedTitle) => {
     setSearchInput(selectedTitle);
     setSuggestions([]); // Clear suggestions after selecting one
-    // Call your function here with selectedTitle
-    // Example: callYourFunction(selectedTitle);
   };
-  const handleIconInputChange = (event) => {
+
+  const handleIconInputChange = event => {
     const { value } = event.target;
     setSearchText(value);
 
-    if (value) {
-      setFilteredIconTitles(filterSuggestions(value).slice(0, 6));
-    } else {
-      setFilteredIconTitles([]);
-    }
+    const filteredSuggestions = iconTitles.filter(
+      item =>
+        (item && item.toLowerCase().includes(value.toLowerCase())) ||
+        (item.slug && item.slug.toLowerCase().includes(value.toLowerCase()))
+    );
+
+    setFilteredIconTitles(filteredSuggestions.slice(0, 6));
   };
 
   const handleIconSelect = (selectedTitle) => {
     console.log(`Selected icon title: ${selectedTitle}`);
-    // Call your function here with the selectedTitle
+    const icon = iconTitles.find((icon) => icon.title === selectedTitle);
+
+    setSelectedTitles((prevTitles) => [...prevTitles, `https://img.shields.io/badge/${selectedTitle}-100000?style=for-the-badge&logo=${selectedTitle}&logoColor=white&labelColor=black&color=${title => (iconTitles.find(icon => icon.title === title) || {}).hex}`]);
+    setSearchText();
+    // setFilteredIconTitles(['']);
   };
+
+
+  const yourFunctionToProcessSelectedTitles = (selectedTitles) => {
+    console.log('Selected Titles:', selectedTitles);
+  };
+
+  const generateBadgeUrl = (title) => {
+    const icon = iconTitles.find((icon) => icon.title === title);
+    // console.log(icon);
+
+    if (icon) {
+      return `https://img.shields.io/badge/${icon.title}-100000?style=for-the-badge&logo=${icon.title}&logoColor=white&labelColor=black&color=${icon.hex}`;
+    }
+
+    // return '';
+  };
+
+
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -116,22 +131,20 @@ const App = () => {
   };
 
   const generateLangCard = () => {
-    if ({ layout } == "no-progress") {
+    if (layout === 'no-progress') {
       const link = `https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&theme=${theme}&show_icons=${showIcons}&hide_border=${hideBorder}&hide_progress=true`;
       setLangCard(link.toLowerCase().replace(/\s+/g, ''));
-    }
-    else {
+    } else {
       const link = `https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&theme=${theme}&show_icons=${showIcons}&hide_border=${hideBorder}&layout=${layout}`;
       setLangCard(link.toLowerCase().replace(/\s+/g, ''));
     }
   };
 
   const generateWakaTimeCard = () => {
-    if ({ layout } != "compact") {
+    if (layout !== 'compact') {
       const link = `https://github-readme-stats.vercel.app/api/wakatime?username=${username}&theme=${theme}`;
       setWakaTimeCard(link.toLowerCase().replace(/\s+/g, ''));
-    }
-    else {
+    } else {
       const link = `https://github-readme-stats.vercel.app/api/wakatime?username=${username}&layout=compact&theme=${theme}`;
       setWakaTimeCard(link.toLowerCase().replace(/\s+/g, ''));
     }
@@ -158,6 +171,26 @@ const App = () => {
     setError('');
   };
 
+
+
+  const handleSubmitClick = () => {
+    generateStats();
+    generateStreakStats();
+    generateLangCard();
+    generateWakaTimeCard();
+
+    const generatedUrls = selectedTitles.map(generateBadgeUrl);
+    setGeneratedBadgeUrls(generatedUrls);
+
+    // Update badgeUrls with the badge URLs of selected titles
+    const badgeUrlsForSelectedTitles = selectedTitles.map(generateBadgeUrl);
+    setBadgeUrls(badgeUrlsForSelectedTitles);
+    // {console.log(badgeUrls);}
+    yourFunctionToProcessSelectedTitles(selectedTitles);
+  };
+
+
+
   return (
     <div className='container'>
       <div className="flex">
@@ -181,7 +214,6 @@ const App = () => {
         </select>
       </div>
       <br />
-     
 
       <div className="checkbox-container">
         <div className="checkbox-label">
@@ -229,16 +261,8 @@ const App = () => {
         </div>
       </div>
 
-      {/* <div>
-        <p>Username: {username}</p>
-        <p>Theme: {theme}</p>
-        <p>Show Icons: {showIcons.toString()}</p>
-        <p>Hide Border: {hideBorder.toString()}</p>
-        <p>Count Private: {countPrivate.toString()}</p>
-      </div> */}
-
       <br />
-      <button onClick={generateStats}>Generate Badges</button>
+      <button onClick={handleSubmitClick}>Generate Badges</button>
       <br />
       <div>
         {isLoading ? (
@@ -250,14 +274,37 @@ const App = () => {
             <>
               <p>Generated Link:</p>
               <img src={stats} alt="Generated Link" />
+              <p>Generated Streak Stats:</p>
+              <img src={streakStats} alt="Generated Link" />
+              <br />
+
+              <p>Generated Language Card:</p>
+              <img src={langCard} alt="Generated Link" />
+              <br />
+
+              <p>Generated WakaTime Card:</p>
+              <img src={wakaTimeCard} alt="Generated Link" />
+              <br />
+              <div>
+                {selectedTitles.map((url, index) => (
+                  <div key={index}>
+                    <img src={url} alt={`Badge ${index + 1}`} />
+                    <br />
+                    {console.log(url)}
+                  </div>
+                ))}
+              </div>
+
             </>
           )
+
         )}
       </div>
 
       {error && <p className="error">{error}</p>}
+      <GitHubDependencyAnalyzer />
     </div>
   );
-}
+};
 
 export default App;
