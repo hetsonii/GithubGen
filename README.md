@@ -1,3 +1,4 @@
+The GitHub README Generator is a web app created by White Gloves Gang for Smart India Hackathon
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
