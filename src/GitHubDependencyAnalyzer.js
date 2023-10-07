@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const GitHubDependencyAnalyzer = () => {
-  const [username, setUsername] = useState('');
+const GitHubDependencyAnalyzer = ({ Username }) => {
   const [topDependencies, setTopDependencies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const personalAccessToken = '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';
+  const personalAccessToken = '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';
+  console.log(Username)
 
   const fetchPackageJson = async () => {
     setIsLoading(true);
@@ -19,7 +19,7 @@ const GitHubDependencyAnalyzer = () => {
         },
       });
 
-      const response = await axiosInstance.get(`https://api.github.com/users/${username}/repos`);
+      const response = await axiosInstance.get(`https://api.github.com/users/${Username}/repos`);
 
       if (response.status !== 200) {
         throw new Error(`Failed to fetch repositories. Status Code: ${response.status}`);
@@ -77,12 +77,6 @@ const GitHubDependencyAnalyzer = () => {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Enter GitHub username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
       <button onClick={fetchPackageJson} disabled={isLoading}>
         {isLoading ? 'Fetching...' : 'Fetch Top 10 Dependencies'}
       </button>

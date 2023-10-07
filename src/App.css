@@ -8,8 +8,8 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
-.container {
-  min-width: 800px;
+.outer_container {
+  min-width: 600px;
   background-color: #333;
   padding: 30px;
   border-radius: 5px;
@@ -17,17 +17,46 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+ justify-content: center;
+
+}
+
+.inner_container {
+ max-width: 50%;
+}
+
+/* Add this CSS to style the input text */
+input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 1px solid #ccc; /* Add bottom border */
+  border-radius: 0; /* Remove border-radius */
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #444;
+  color: #fff;
+  transition: font-size 0.2s, border-color 0.2s; /* Add transition */
+}
+
+
+input[type="text"]:focus {
+  font-size: 16px;
+  border-color: #FE3D67; 
+  outline: none;
 }
 
 label {
-  font-weight: 600; 
+  font-weight: 600;
   display: block;
   margin-bottom: 15px;
   color: #fff;
   font-size: 16px;
+  margin-right: 10px; 
 }
 
-input[type="text"],
+
 input[type="checkbox"] {
   width: 80%;
   padding: 10px;
@@ -78,17 +107,22 @@ button {
   padding: 10px 20px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: 600; 
-  transition: background-color 0.2s, transform 0.2s;
+  border-radius: 20px; 
+  font-weight: 600;
+  transition: background-color 0.2s, transform 0.2s, outline 0.2s; /* Added outline transition */
+  margin: 10px; /* Added margin */
+  outline: none; /* Added outline style */
 }
 
 button:hover {
   background-color: #f9093d;
   transform: scale(1.05);
+  outline: none; /* Added outline style on hover */
 }
 
 button:active {
   transform: scale(0.95);
+  outline: none; 
 }
 
 .result {
@@ -133,11 +167,6 @@ select[name="theme"] option:hover {
   color: #fff;
 }
 
-.flex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .skeleton-loader-container {
   position: relative;
@@ -179,7 +208,7 @@ select[name="theme"] option:hover {
     background-color: #1a1a1a;
     overflow: hidden; 
     border-radius: 5px;
-    margin-top: 10px; 
+    margin: 25px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -215,21 +244,29 @@ select[name="theme"] option:hover {
     }
   }
 
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .input-container {
+    position: relative;
+    /* background-color: black; */
+  }
+  
   .suggestions {
-    list-style: none;
-    padding: 0;
     position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
     background-color: rgb(59, 55, 55);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
-    width: 80%; 
-    max-width: 200px; 
     border: 1px solid #ccc;
-    top: calc(55% + 3px);
-    left: 52%;
-    transform: translateX(-50%);
+    max-width: 200px;
   }
-  
+
 
 .suggestions-item {
   padding: 8px;
@@ -240,5 +277,3 @@ select[name="theme"] option:hover {
 .suggestions-item:hover {
   background-color: #aba3a3;
 }
-
-  
