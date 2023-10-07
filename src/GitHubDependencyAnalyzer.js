@@ -5,7 +5,7 @@ const GitHubDependencyAnalyzer = ({ Username }) => {
   const [topDependencies, setTopDependencies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const personalAccessToken = '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';
+  const personalAccessToken = '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';
   console.log(Username)
 
   const fetchPackageJson = async () => {

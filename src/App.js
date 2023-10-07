@@ -88,10 +88,7 @@ Stats since June 10, 2023<br/>
 ![Wakatime Stats](https://github-readme-stats.vercel.app/api/wakatime?username=${username}&theme=${theme}&layout=${layout})
 
 ### ✍️ Random Quote
-![Random Quote](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=${theme})
-  
----
-![Profile Views](https://visitcount.itsvg.in/api?id=hetsonii&label=Profile%20Views&pretty=true)`;
+![Random Quote](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=${theme})`;
   
     setTemplate1(template);
   
@@ -165,7 +162,6 @@ Stats since June 10, 2023<br/>
 
   const generateBadgeUrl = (title) => {
     const icon = iconTitles.find((icon) => icon.title === title);
-    // console.log(icon);
 
     if (icon) {
       return `https://img.shields.io/badge/${icon.title}-100000?style=for-the-badge&logo=${icon.title}&logoColor=white&labelColor=black&color=${icon.hex}`;
@@ -258,7 +254,7 @@ Stats since June 10, 2023<br/>
         setUsername(value.toLowerCase().replace(/\s+/g, ""));
         break;
       case "theme":
-        setTheme(value);
+        setTheme(value.toLowerCase().replace(/\s+/g, ""));
         break;
       case "show_icons":
         setShowIcons(checked);
@@ -305,6 +301,7 @@ Stats since June 10, 2023<br/>
       setStats("");
       return;
     }
+
 
     setIsLoading(true);
 
@@ -536,7 +533,7 @@ Stats since June 10, 2023<br/>
 
         {error && <p className="error">{error}</p> && username}
         <GitHubDependencyAnalyzer Username={username} />
-        <button onClick={generateTemp1}>Generate Badges</button>
+        <button onClick={generateTemp1}>Generate From Template</button>
 
       </div>
     </div>
